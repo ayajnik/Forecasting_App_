@@ -1,0 +1,100 @@
+/*----------------------------------------------------Global Variable----------------------------------------------------------------------------*/
+p{
+    font-weight: bold;
+    font-style: oblique;
+    line-height: 1.5;
+    color: black;
+}
+body{
+    background-color: seashell;
+    color: #333333;
+    /*font-family: Helvetica, Arial, sans-serif;*/
+
+
+}
+
+*{
+    /*color: darkslategrey;*/
+    font-family: serif;
+    color: #333333;
+
+}
+a{
+    color: gold;
+    font-weight:bold;
+    display: inline-block;
+}
+a:hover{
+    text-decoration: none;
+    display: inline-block;
+}
+h2{
+    background-color: crimson;
+
+}
+/*-------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------The First div class--------------------------------------------------------------------*/
+h1{
+    background: crimson;
+    padding: 8px;
+    font-size: 120px;
+
+}
+p.Sabse-Upar{
+    font-size: 30px;
+    color:darkslategreyy;
+}
+
+.Sabse-Upar a{
+    color: #F7FFF7;
+    background: #2F3061;
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.Sabse-Upar .a:hover{
+    color: rgb(47, 48, 97, 80%);
+}
+/*------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------Footer-------------------------------------------------------------------------*/
+.Last{                                                     /* using class attribute*/
+    background: lightgreen;
+    width: 150px;
+    color:white;
+    padding: 50px 50% 50px 50%;
+    margin: auto auto;
+    font-family: 'Bebas Neue', cursive;
+    text-align: center;
+}
+/*------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------The Nav Tab--------------------------------------------------------------------*/
+.Outlining{                                                    /* In this section we are styling the link to make it a button*/
+    font-size: 30px;
+    padding: 8px;
+    font-align: Middle;
+    background: orangered;
+    font-weight: bold;
+    margin: 0 auto;
+    width: 1000px;
+}
+
+
+.Outlining dl dd{
+    color:lightyellow;
+}
+/*------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------extra info--------------------------------------------------------------------------*/
+.Extra-Info a{                                                  /* In this section we are styling the link to make it a button*/
+    color: gold;
+
+    padding: 1px;
+    text-decoration: none;
+    border-radius: 2px;
+}
+
+.Extra-Info a:hover{
+        color: gold;
+
+}
+

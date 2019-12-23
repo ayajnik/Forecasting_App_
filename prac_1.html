@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recurrent Neural Network</title>
+    <link href="https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styling.css">
+</head>
+<body>
+    <div class = "Sabse-Upar", id="0">
+    <h1><bold>Deep Learning for Time Series Forecasting</bold></h1>
+    <p class = "Sabse-Upar">We will be using <em>Recurrent Neural Network with Long Short Term Memory Cells</em> for this task.</p>
+    <p class = "Sabse-Upar">To know about the author please click <a href="#lastest">here</a></p>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <nav>
+        <div class = "Outlining">
+            <dl>
+                <dt><strong>Why not traditional stastical techniques</strong></dt>
+                <dd>Here we discuss the disadvantages of ARIMA/SARIMA</dd>
+                <p>To skip directly to this topic, please click <a href="#1">here.</a></p>
+            <br>
+                <dt><strong>RNN for Time Series</strong></dt>
+                <dd>Here we discuss that why RNN are good for Time Series Forecasting.</dd>
+                <p>To skip directly to this topic, please click <a href="#2">here.</a></p>
+            <br>
+                <dt><strong>The problem of Long-Term Dependencies</strong></dt>
+                <dd>Here we discus one of the short comings of RNN and then gently introduce LSTM cells</dd>
+                <p>To skip directly to this topic, please click <a href="#3">here.</a></p>
+            <br>
+            <dt><strong>LSTM's</strong></dt>
+                <dd>Here we discuss the core idea behind LSTM.</dd>
+                <p>To skip directly to this topic, please click <a href="#4">here.</a></p>
+            <br>
+                <dt><strong>LSTM working mechanism</strong></dt>
+                <dd>Here we discuss in a step by step technique for the working of LSTM's.</dd>
+                <p>To skip directly to this topic, please click <a href="#5">here.</a></p>
+            <br>
+                </dl>
+        </div>
+    </nav>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class = "Extra-Info">
+    <p>We will be using Chris Olah's blog for our reference. Chris Olah is one of the decorated Data Scientist present in the academia world. The link to his blog is <a href="https://colah.github.io/", target="_blank">here</a></p>
+    <p><em>If you want a quick presentation on this topic then click <a href="WHY%20NOT%20ARIMA%20OR%20SARIMA.pptx" , download="Short Summary"><bold>here</bold></a></em></p>
+        </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class = "First Topic", id="1">
+    <h2>Why are we using Deep Learning instead of traditional time series forecasting?</h2>
+    <p>Some major disadvantages of ARIMA forecasting are: first,
+some of the traditional model identification techniques for identifying the correct model
+from the class of possible models are difficult to understand and usually computationally
+10
+expensive. This process is also subjective and the reliability of the chosen model can
+depend on the skill and experience of the forecaster. Second, the underlying theoretical
+model and structural relationships are not distinct as some simple forecasts models such
+as simple exponential smoothing and Holt-Winters (Thomas 1983). Moreover, the
+ARIMA models, as all forecasting methods, are essentially „backward looking‟. Such that,
+the long term forecast eventually goes to be straight line and poor at predicting series
+with turning points. In the next chapter, we briefly review the Autoregressive model and
+the moving average model, and then move foreword to ARIMA model. </p>
+        <h4>
+            <bold><i>Forecasting</i></bold>
+                </h4>
+            <p>The central logical problem in forecasting is that the "cases" (that is, the time periods) which you use to make predictions never form a random sample from the same population as the time periods about which you make the predictions. This point is vividly illustrated by the 509-point plunge in the Dow-Jones Industrial Average on October 19, 1987.
+                Even in percentage terms, no one-day drop in the previous 40 years (comprising some 8000 trading days) had ever been more than a fraction of that size. Thus this drop (which occurred in the absence of any dramatic news developments) could never have been forecast just from a time-series study of stock prices over the previous 40 years, no matter how detailed.
+                It is now widely believed that a major cause of the drop was the newly-introduced widespread use of personal computers programmed to sell stock options whenever stock prices dropped slightly; this created a snowball effect. Thus the stock market's history of the previous 40 or even 100 years was irrelevant to predicting its volatility in October 1987, because nearly all that history had occurred in the absence of this new factor.
+                The same general point arises in nearly all forecasting work. If you have records of monthly sales in a department store for the last 10 years, and are asked to project those sales into the future, those statistics will not reflect the fact that as you work, a new discount store is opening a few blocks away, or the city has just changed the street in front of your store to a one-way street, making it harder for customers to reach your store.
+                A second problem that arises in time-series forecasting is that you rarely know the true shape of the distribution with which you are working. Workers in other areas often assume normal distributions while knowing that assumption is not fully accurate. However, such a simplification may produce more serious errors in time-series work than in other areas.
+                In much statistical work the problem of non-normal distributions is greatly ameliorated by the fact that you are really concerned with sample means, and the Central Limit Theorem asserts that means are often approximately normally distributed even when the underlying scores are not. However, in time-series forecasting you are often concerned with just one time period--the period for which you want to forecast. Thus the Central Limit Theorem has no chance to operate, and the assumption of normality may lead to seriously wrong conclusions.
+                Even if your forecast is just one of a series of forecasts which you update after each new time period, the forecasts are made one at a time, so that a single seriously wrong forecast may bankrupt your company or lead to your dismissal, and nobody will ever learn that your next 50 forecasts would have been within the range predicted by a normal distribution. Some stock market speculators, who had previously been quite successful, were bankrupted or driven into retirement by the stock market plunge of 1987. That's very different from the situation in which a company hires, all at once, 50 workers identified by a competence test. If one out of the 50 is a spectacular failure, the company (and you the forecaster) will survive because at the very same time the other 49 were turning out well.
+            </p>
+        <h4>
+            <bold><i>Analyzing Casual Patterns</i></bold>
+        </h4>
+            <p>
+                When scientists use time series to study the effects of one variable on another, they usually have at least two time series--one for the independent variable and one for the dependent--as in our earlier example on the relation between unemployment and crime. The problems in analyzing causal patterns are difficult but not impossible.
+One problem with such research is that because the observations within each series are not independent of each other, the probability of finding a high correlation between the two series may be higher than is suggested by standard formulas. Later we describe a solution to this problem.
+
+A second problem is that it is rarely reasonable to assume that the time sequence of the causal patterns matches the time periods in the study. Thus if increased unemployment typically produced an increase in crime exactly six months later but not five months later, then it would be fairly easy to discover that relationship by correlating monthly changes in unemployment with monthly changes in crime six months later. However, it is much more plausible to assume that increased unemployment in January produces a slight rise in crime during February, a further slight rise during March, and so on for several months. Such effects can be much more difficult to detect, though later we do suggest a solution to this problem.
+
+A third problem in analyzing causal patterns is the familiar problem that correlation does not imply causation. As in ordinary regression problems, it helps to be able to control statistically for covariates. Later we describe one way to do this in time-series problems.
+            </p>
+        <h4>
+            <bold><i>Autoregression and Forecasting</i></bold>
+        </h4>
+        <p>
+            Despite the difficulties just outlined, time-series analyses have many important uses. So we now turn to methods of time-series analysis.
+
+        </p>
+                </div>
+    <div class="Second_Topic", id="2">
+        <h2>RNN for Time Series Forecasting</h2>
+        <h4><bold><i>Model Architecture</i></bold></h4>
+        <p>
+            On a high level, this model utilizes pretty standard sequence-to-sequence recurrent neural network architecture. Its inputs are past values of the predicted time series concatenated with other driving time series values (optional) and timestamp embeddings (optional). If static features are available the model can utilize them to condition the prediction too.
+        </p>
+        <h4><blod><i>Encoder</i></blod></h4>
+        <p>
+            Encoder is used to encode time series inputs with their respective timestamp embeddings [x] to a fixed size vector representation [S]. It also produces latent vectors for individual time steps [h] which are used later in decoder attention. For this purpose, I utilized a multi-layer unidirectional recurrent neural network where all layers except the first one are residual.
+            <p><img src="first.png" , align="Center" , width="1000" , height="700" , alt="Encoder"><br>
+            In some cases you may have input sequences that are too long and can cause the training to fail because of GPU memory issues or slow it down significantly. To deal with this issue, the model convolves the input sequence with a 1D convolution that has the same kernel size and stride before feeding it to the RNN encoder. This reduces the RNN input by a factor of n where n is the convolution kernel size.
+
+        </p>
+        <h4><bold><i>Context</i></bold></h4>
+        <p><img src="second.png" , alt="For Context of RNN" , width="1000" , height="500"></p><br>
+        <p>
+            Context layer sits between the inputs encoder and a decoder layer. It concatenates encoder final state [S] with static features and static embeddings and produces a fixed size vector [C] which is then used as an initial state for the decoder.
+        </p>
+        <h4><bold><i>Decoder</i></bold></h4>
+        <p>
+            Decoder layer is implemented as an autoregressive recurrent neural network with attention. Input at each step is a concatenation of previous sequence value and a timestamp embedding for that step. Feeding timestamp embeddings to the decoder helps the model learn patterns in seasonal data.
+        <p><img src="third.png" , alt="Decoder" , width="1000" , height="700"></p>
+        </p>
+        <br>
+        <div class="Third Topic", id="3">
+            <h2>The Problem Of Long-Term Dependencies</h2>
+            <p>One of the appeals of RNNs is the idea that they might be able to connect previous information to the present task, such as using previous video frames might inform the understanding of the present frame. If RNNs could do this, they’d be extremely useful. But can they? It depends.
+
+Sometimes, we only need to look at recent information to perform the present task. For example, consider a language model trying to predict the next word based on the previous ones. If we are trying to predict the last word in “the clouds are in the sky,” we don’t need any further context – it’s pretty obvious the next word is going to be sky. In such cases, where the gap between the relevant information and the place that it’s needed is small, RNNs can learn to use the past information.</p>
+            <p><img src="ltd_1.png", alt="Long-Term Dependencies", height="500", width="1000"> </p><br>
+            <p>But there are also cases where we need more context. Consider trying to predict the last word in the text “I grew up in France… I speak fluent French.” Recent information suggests that the next word is probably the name of a language, but if we want to narrow down which language, we need the context of France, from further back. It’s entirely possible for the gap between the relevant information and the point where it is needed to become very large.
+
+Unfortunately, as that gap grows, RNNs become unable to learn to connect the information.</p><br>
+            <p><img src="ltd_2.png", alt="Long Term Dependencies", height="500", width="1000"> </p><br>
+            <p>In theory, RNNs are absolutely capable of handling such “long-term dependencies.” A human could carefully pick parameters for them to solve toy problems of this form. Sadly, in practice, RNNs don’t seem to be able to learn them. The problem was explored in depth by Hochreiter (1991) [German] and Bengio, et al. (1994), who found some pretty fundamental reasons why it might be difficult.
+
+Thankfully, LSTMs don’t have this problem!</p><br>
+
+            <div class = "Fourth Topic", id="4">
+                <h2>LSTM'S</h2>
+                <p>Long Short Term Memory networks – usually just called “LSTMs” – are a special kind of RNN, capable of learning long-term dependencies. They were introduced by Hochreiter & Schmidhuber (1997), and were refined and popularized by many people in following work.1 They work tremendously well on a large variety of problems, and are now widely used.
+
+LSTMs are explicitly designed to avoid the long-term dependency problem. Remembering information for long periods of time is practically their default behavior, not something they struggle to learn!
+
+All recurrent neural networks have the form of a chain of repeating modules of neural network. In standard RNNs, this repeating module will have a very simple structure, such as a single tanh layer.</p>
+<p><img src="LSTM.png" ,alt = "LSTM" , height="500" , width="1000"></p><br>
+<p>LSTMs also have this chain like structure, but the repeating module has a different structure. Instead of having a single neural network layer, there are four, interacting in a very special way.
+Don’t worry about the details of what’s going on. We’ll walk through the LSTM diagram step by step later. For now, let’s just try to get comfortable with the notation we’ll be using. In the above diagram, each line carries an entire vector, from the output of one node to the inputs of others. The pink circles represent pointwise operations, like vector addition, while the yellow boxes are learned neural network layers. Lines merging denote concatenation, while a line forking denote its content being copied and the copies going to different locations.
+</p>
+    </div>
+            <div class="Fifth Topic", id="5">
+                <h2>Working Mechanism for LSTM</h2>
+                <p>
+                    The first step in our LSTM is to decide what information we’re going to throw away from the cell state. This decision is made by a sigmoid layer called the “forget gate layer.” It looks at ht−1 and xt, and outputs a number between 0 and 1 for each number in the cell state Ct−1. A 1 represents “completely keep this” while a 0 represents “completely get rid of this.”
+
+Let’s go back to our example of a language model trying to predict the next word based on all the previous ones. In such a problem, the cell state might include the gender of the present subject, so that the correct pronouns can be used. When we see a new subject, we want to forget the gender of the old subject.
+                The next step is to decide what new information we’re going to store in the cell state. This has two parts. First, a sigmoid layer called the “input gate layer” decides which values we’ll update. Next, a tanh layer creates a vector of new candidate values, C~t, that could be added to the state. In the next step, we’ll combine these two to create an update to the state.
+
+In the example of our language model, we’d want to add the gender of the new subject to the cell state, to replace the old one we’re forgetting. It’s now time to update the old cell state, Ct−1, into the new cell state Ct. The previous steps already decided what to do, we just need to actually do it.
+
+We multiply the old state by ft, forgetting the things we decided to forget earlier. Then we add it∗C~t. This is the new candidate values, scaled by how much we decided to update each state value.
+
+In the case of the language model, this is where we’d actually drop the information about the old subject’s gender and add the new information, as we decided in the previous steps. Finally, we need to decide what we’re going to output. This output will be based on our cell state, but will be a filtered version. First, we run a sigmoid layer which decides what parts of the cell state we’re going to output. Then, we put the cell state through tanh (to push the values to be between −1 and 1) and multiply it by the output of the sigmoid gate, so that we only output the parts we decided to.
+
+For the language model example, since it just saw a subject, it might want to output information relevant to a verb, in case that’s what is coming next. For example, it might output whether the subject is singular or plural, so that we know what form a verb should be conjugated into if that’s what follows next.
+                </p>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <p>To go at the top of this page, then click <a href="#top", target="_parent">here.</a></p>
+            <br>
+            <br>
+            <br>
+            <br>
+    <div class = "Last", id="lastest">
+    <footer>
+        <p><strong>Ayush Yajnik</strong><br>Manhattan<br>New York City<br>New York<br>USA<br><br><u>Phone Number: +19293192533</u></p>
+        </footer>
+            </div>
+        </body>
+</html>
+
+<style>
+    /*----------------------------------------------------Global Variable----------------------------------------------------------------------------*/
+p{
+    font-weight: bold;
+    font-style: oblique;
+    line-height: 1.5;
+    color: black;
+}
+body{
+    background-color: seashell;
+    color: #333333;
+    /*font-family: Helvetica, Arial, sans-serif;*/
+
+
+}
+
+*{
+    /*color: darkslategrey;*/
+    font-family: serif;
+    color: #333333;
+
+}
+a{
+    color: gold;
+    font-weight:bold;
+    display: inline-block;
+}
+a:hover{
+    text-decoration: none;
+    display: inline-block;
+}
+h2{
+    background-color: crimson;
+
+}
+/*-------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------The First div class--------------------------------------------------------------------*/
+h1{
+    background: crimson;
+    padding: 8px;
+    font-size: 120px;
+
+}
+p.Sabse-Upar{
+    font-size: 30px;
+    color:darkslategreyy;
+}
+
+.Sabse-Upar a{
+    color: #F7FFF7;
+    background: #2F3061;
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.Sabse-Upar .a:hover{
+    color: rgb(47, 48, 97, 80);
+}
+/*------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------Footer-------------------------------------------------------------------------*/
+.Last{                                                     /* using class attribute*/
+    background: lightgreen;
+    width: 150px;
+    color:white;
+    padding: 50px 50% 50px 50%;
+    margin: auto auto;
+    font-family: 'Bebas Neue', cursive;
+    text-align: center;
+}
+/*------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------The Nav Tab--------------------------------------------------------------------*/
+.Outlining{                                                    /* In this section we are styling the link to make it a button*/
+    font-size: 30px;
+    padding: 8px;
+    font-align: Middle;
+    background: orangered;
+    font-weight: bold;
+    margin: 0 auto;
+    width: 1000px;
+}
+
+
+.Outlining dl dd{
+    color:lightyellow;
+}
+/*------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------extra info--------------------------------------------------------------------------*/
+.Extra-Info a{                                                  /* In this section we are styling the link to make it a button*/
+    color: gold;
+
+    padding: 1px;
+    text-decoration: none;
+    border-radius: 2px;
+}
+
+.Extra-Info a:hover{
+        color: gold;
+
+}
+        </style>
